@@ -1,0 +1,72 @@
+graph = {
+    'S': {'B', 'C'},
+    'B': {'A', 'D', 'E'},
+    'C': {'E'},
+    'D': set(),
+    'E': {'D'},
+    'A': {'F'},
+    'F': {'G'},
+    'G': set(),
+}
+
+def goal_test_producer(nodes_checked):
+    def goal_test(node):
+        nodes_checked.append(node)
+        return node=='G'
+    return goal_test
+
+def dfs_tree(graph, goal_test, start='S'):
+    frontier = [start]
+    while frontier:
+        node = frontier.pop()
+        if goal_test(node):
+            return node
+        frontier.extend(sorted(graph[node]))
+    return None
+
+def dfs_graph(graph, goal_test, start='S'):
+    explored, frontier = set(), [start]
+    while frontier:
+        node = frontier.pop()
+        if goal_test(node):
+            return node
+        explored.add(node)
+        frontier.extend(sorted(graph[node] - explored - set(frontier)))
+    return None
+
+def bfs_tree(graph, goal_test, start='S'):
+    # TODO Implement this
+    pass
+
+def bfs_graph(graph, goal_test, start='S'):
+    # TODO Implement this
+    pass
+
+def print_all(fns):
+    for fn in fns:
+
+        print(f"{fn.__name__}: ", end='')
+        nodes_checked = []
+        fn(graph, goal_test_producer(nodes_checked))
+        print('-'.join(nodes_checked))
+
+print_all([dfs_tree, dfs_graph, bfs_tree, bfs_graph])
+
+# Now implement with early goal test to see the difference
+def dfs_early_tree(graph, goal_test, start='S'):
+    # TODO Implement this
+    pass
+
+def dfs_early_graph(graph, goal_test, start='S'):
+    # TODO Implement this
+    pass
+
+def bfs_early_tree(graph, goal_test, start='S'):
+    # TODO Implement this
+    pass
+
+def bfs_early_graph(graph, goal_test, start='S'):
+    # TODO Implement this
+    pass
+
+print_all([dfs_early_tree, dfs_early_graph, bfs_early_tree, bfs_early_graph])
